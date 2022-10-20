@@ -2,12 +2,19 @@ import unittest
 
 from ..Konto import Konto
 
+
 class TestCreateBankAccount(unittest.TestCase):
-
     def test_tworzenie_konta(self):
-        pierwsze_konto = Konto("Dariusz", "Januszewski")
-        self.assertEqual(pierwsze_konto.imie, "Dariusz", "Imie nie zostało zapisane!")
-        self.assertEqual(pierwsze_konto.nazwisko, "Januszewski", "Nazwisko nie zostało zapisane!")
-        self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
+        imie = "Dariusz"
+        nazwisko = "Januszewski"
+        pesel = "12345678912"
+        pierwsze_konto = Konto(imie, nazwisko, pesel)
 
-    #tutaj proszę dodawać nowe testy
+        self.assertEqual(pierwsze_konto.imie, imie, "Imie nie zostało zapisane!")
+        self.assertEqual(
+            pierwsze_konto.nazwisko, nazwisko, "Nazwisko nie zostało zapisane!"
+        )
+        self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
+        self.assertEqual(pierwsze_konto.pesel, pesel, "PESEL nie zostal zapisany!")
+
+    # tutaj proszę dodawać nowe testy
