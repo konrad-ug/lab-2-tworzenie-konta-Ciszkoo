@@ -6,11 +6,11 @@ from ..Konto import Konto
 class TestCreateBankAccount(unittest.TestCase):
     imie = "Dariusz"
     nazwisko = "Januszewski"
+    pesel = "12345678912"
     komunikat_zly_pesel = "Niepoprawny PESEL!"
 
     def test_tworzenie_konta(self):
-        pesel = "12345678912"
-        pierwsze_konto = Konto(self.imie, self.nazwisko, pesel)
+        pierwsze_konto = Konto(self.imie, self.nazwisko, self.pesel)
 
         self.assertEqual(pierwsze_konto.imie, self.imie, "Imie nie zostało zapisane!")
         self.assertEqual(
@@ -20,7 +20,7 @@ class TestCreateBankAccount(unittest.TestCase):
 
         # tutaj proszę dodawać nowe testy
 
-        self.assertEqual(pierwsze_konto.pesel, pesel, "PESEL nie zostal zapisany!")
+        self.assertEqual(pierwsze_konto.pesel, self.pesel, "PESEL nie zostal zapisany!")
 
     def test_zbyt_krotki_pesel(self):
         pesel = "123"
@@ -34,4 +34,21 @@ class TestCreateBankAccount(unittest.TestCase):
         konto = Konto(self.imie, self.nazwisko, pesel)
         self.assertEqual(
             konto.pesel, self.komunikat_zly_pesel, "Podany PESEL jest zbyt dlugi!"
+        )
+
+    def test_konto_kod_prmocyjny(self):
+        kod_promocyjny = "PROM-XYZ"
+        bonus_srodki = 50
+        konto = Konto(self.imie, self.nazwisko, self.pesel, kod_promocyjny)
+
+        self.assertEqual(
+            konto.saldo, bonus_srodki, "Bonusowe srodki nie zostaly dodane!"
+        )
+
+    def test_zly_kod_promocyjny(self):
+        kod_promocyjny = "DARMOWE_5_DYSZEK"
+        konto = Konto(self.imie, self.nazwisko, self.pesel, kod_promocyjny)
+
+        self.assertEqual(
+            konto.saldo, 0, "Bonusowe srodki zostaly dodane mimo zlego kodu!"
         )
