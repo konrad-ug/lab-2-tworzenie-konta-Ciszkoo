@@ -59,3 +59,10 @@ class Konto:
     def saldo(self, args):
         pesel, promo_code = args
         self._saldo = initial_balance(pesel, promo_code)
+
+    def incoming_transfer(self, amount):
+        self._saldo += amount
+
+    def outgoing_transfer(self, amount):
+        if self.saldo > amount:
+            self._saldo -= amount
