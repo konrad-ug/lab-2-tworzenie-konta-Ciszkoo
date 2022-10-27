@@ -41,7 +41,7 @@ class Konto:
         self.name = name
         self.surname = surname
         self.pesel = pesel
-        self.saldo = (pesel, promo_code)
+        self.balance = (pesel, promo_code)
 
     @property
     def pesel(self):
@@ -52,17 +52,17 @@ class Konto:
         self._pesel = pesel_processing(pesel)
 
     @property
-    def saldo(self):
-        return self._saldo
+    def balance(self):
+        return self._balance
 
-    @saldo.setter
-    def saldo(self, args):
+    @balance.setter
+    def balance(self, args):
         pesel, promo_code = args
-        self._saldo = initial_balance(pesel, promo_code)
+        self._balance = initial_balance(pesel, promo_code)
 
     def incoming_transfer(self, amount):
-        self._saldo += amount
+        self._balance += amount
 
     def outgoing_transfer(self, amount):
-        if self.saldo > amount:
-            self._saldo -= amount
+        if self.balance > amount:
+            self._balance -= amount

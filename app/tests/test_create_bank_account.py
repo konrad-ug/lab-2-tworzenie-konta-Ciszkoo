@@ -17,7 +17,7 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(
             first_account.surname, self.surname, "Nazwisko nie zostało zapisane!"
         )
-        self.assertEqual(first_account.saldo, 0, "Saldo nie jest zerowe!")
+        self.assertEqual(first_account.balance, 0, "Saldo nie jest zerowe!")
 
         # tutaj proszę dodawać nowe testy
 
@@ -42,7 +42,7 @@ class TestCreateBankAccount(unittest.TestCase):
         account = Konto(self.name, self.surname, self.pesel, self.correct_promo_code)
 
         self.assertEqual(
-            account.saldo, bonus_srodki, "Bonusowe srodki nie zostaly dodane!"
+            account.balance, bonus_srodki, "Bonusowe srodki nie zostaly dodane!"
         )
 
     def test_account_wrong_promo_code(self):
@@ -50,7 +50,7 @@ class TestCreateBankAccount(unittest.TestCase):
         account = Konto(self.name, self.surname, self.pesel, promo_code)
 
         self.assertEqual(
-            account.saldo, 0, "Bonusowe srodki zostaly dodane mimo zlego kodu!"
+            account.balance, 0, "Bonusowe srodki zostaly dodane mimo zlego kodu!"
         )
 
     def test_born_before_1900(self):
@@ -58,7 +58,7 @@ class TestCreateBankAccount(unittest.TestCase):
         account = Konto(self.name, self.surname, pesel, self.correct_promo_code)
 
         self.assertEqual(
-            account.saldo, 0, "Bonusowe srodki zostaly przyznane seniorowi!"
+            account.balance, 0, "Bonusowe srodki zostaly przyznane seniorowi!"
         )
 
     def test_born_before_1961(self):
@@ -66,5 +66,5 @@ class TestCreateBankAccount(unittest.TestCase):
         account = Konto(self.name, self.surname, pesel, self.correct_promo_code)
 
         self.assertEqual(
-            account.saldo, 0, "Bonusowe srodki zostaly przyznane seniorowi!"
+            account.balance, 0, "Bonusowe srodki zostaly przyznane seniorowi!"
         )
