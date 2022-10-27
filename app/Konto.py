@@ -1,47 +1,47 @@
 import re
 
 
-def pesel_poprawnosc(pesel):
+def pesel_processing(pesel):
     if len(pesel) == 11:
         return pesel
     else:
         return "Niepoprawny PESEL!"
 
 
-def czy_promo_kod_zly(promo_kod):
-    if promo_kod == None or re.fullmatch("^PROM-.{3}$", promo_kod) == None:
+def is_promo_code_wrong(promo_code):
+    if promo_code == None or re.fullmatch("^PROM-.{3}$", promo_code) == None:
         return True
     else:
         return False
 
 
-def czy_senior(pesel):
-    rok_suffix = int(pesel[0:2])
-    rok_prefix = int(pesel[2:4])
+def is_senior(pesel):
+    year_suffix = int(pesel[0:2])
+    year_prefix = int(pesel[2:4])
 
     if (
         pesel == "Niepoprawny PESEL!"
-        or rok_prefix > 80
-        or (rok_prefix <= 12 and rok_suffix < 61)
+        or year_prefix > 80
+        or (year_prefix <= 12 and year_suffix < 61)
     ):
         return True
     else:
         return False
 
 
-def saldo_poczatkowe(pesel, promo_kod):
-    if czy_promo_kod_zly(promo_kod) or czy_senior(pesel):
+def initial_balance(pesel, promo_code):
+    if is_promo_code_wrong(promo_code) or is_senior(pesel):
         return 0
     else:
         return 50
 
 
 class Konto:
-    def __init__(self, imie, nazwisko, pesel, promo_kod=None):
-        self.imie = imie
-        self.nazwisko = nazwisko
+    def __init__(self, name, surname, pesel, promo_code=None):
+        self.name = name
+        self.surname = surname
         self.pesel = pesel
-        self.saldo = (pesel, promo_kod)
+        self.saldo = (pesel, promo_code)
 
     @property
     def pesel(self):
@@ -49,7 +49,7 @@ class Konto:
 
     @pesel.setter
     def pesel(self, pesel):
-        self._pesel = pesel_poprawnosc(pesel)
+        self._pesel = pesel_processing(pesel)
 
     @property
     def saldo(self):
@@ -57,5 +57,5 @@ class Konto:
 
     @saldo.setter
     def saldo(self, args):
-        pesel, promo_kod = args
-        self._saldo = saldo_poczatkowe(pesel, promo_kod)
+        pesel, promo_code = args
+        self._saldo = initial_balance(pesel, promo_code)
