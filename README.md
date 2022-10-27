@@ -1,4 +1,4 @@
-# bank-app
+# bank-app - Pawel Olszko, gr.3, 278873
 
 | Termin oddania | Punkty |
 | ------- | ------ |
