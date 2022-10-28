@@ -3,7 +3,7 @@ import unittest
 from ..CompanyAccount import CompanyAccount
 
 
-class CreateCompanyAccount(unittest.TestCase):
+class TestCreateCompanyAccount(unittest.TestCase):
     company_name = "Januszex sp. z o.o."
     correct_nip = "1357924681"
     wrong_nip_info = "Niepoprawny NIP!"
