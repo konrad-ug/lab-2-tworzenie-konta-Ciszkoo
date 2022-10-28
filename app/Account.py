@@ -36,7 +36,7 @@ def initial_balance(pesel, promo_code):
         return 50
 
 
-class Konto:
+class Account:
     def __init__(self, name, surname, pesel, promo_code=None):
         self.name = name
         self.surname = surname

@@ -1,6 +1,6 @@
 import unittest
 
-from ..Konto import Konto
+from ..Account import Account
 
 
 class TestPostingTransfers(unittest.TestCase):
@@ -9,14 +9,14 @@ class TestPostingTransfers(unittest.TestCase):
     pesel = "12325678912"  # 12.2012r.
 
     def test_incoming_transfer(self):
-        account = Konto(self.name, self.surname, self.pesel)
+        account = Account(self.name, self.surname, self.pesel)
         account._balance = 300
         account.incoming_transfer(500)
 
         self.assertEqual(account.balance, 800, "Srodki nie zostaly dodane!")
 
     def test_outgoing_transfer_with_not_enough_money(self):
-        account = Konto(self.name, self.surname, self.pesel)
+        account = Account(self.name, self.surname, self.pesel)
         account._balance = 300
         account.outgoing_transfer(500)
 
@@ -25,7 +25,7 @@ class TestPostingTransfers(unittest.TestCase):
         )
 
     def test_outgoing_transfer_with_enough_money(self):
-        account = Konto(self.name, self.surname, self.pesel)
+        account = Account(self.name, self.surname, self.pesel)
         account._balance = 1000
         account.outgoing_transfer(500)
 

@@ -1,4 +1,4 @@
-from .Konto import Konto
+from .Account import Account
 
 
 def nip_processing(nip):
@@ -8,7 +8,7 @@ def nip_processing(nip):
         return "Niepoprawny NIP!"
 
 
-class CompanyAccount(Konto):
+class CompanyAccount(Account):
     def __init__(self, company_name, nip):
         self.company_name = company_name
         self.nip = nip
