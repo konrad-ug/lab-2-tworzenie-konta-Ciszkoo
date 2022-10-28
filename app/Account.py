@@ -42,6 +42,7 @@ class Account:
         self.surname = surname
         self.pesel = pesel
         self.balance = (pesel, promo_code)
+        self.express_transfer_commission = 1
 
     @property
     def pesel(self):
@@ -66,3 +67,7 @@ class Account:
     def outgoing_transfer(self, amount):
         if self.balance > amount:
             self._balance -= amount
+
+    def express_transfer(self, amount):
+        if amount <= self.balance:
+            self._balance = self._balance - amount - self.express_transfer_commission

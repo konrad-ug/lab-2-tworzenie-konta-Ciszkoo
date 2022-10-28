@@ -13,6 +13,8 @@ class CompanyAccount(Account):
         self.company_name = company_name
         self.nip = nip
         self._balance = 0
+        self.express_transfer_commission = 5
+
 
     @property
     def nip(self):
