@@ -40,34 +40,17 @@ class Account:
     def __init__(self, name, surname, pesel, promo_code=None):
         self.name = name
         self.surname = surname
-        self.pesel = pesel
-        self.balance = (pesel, promo_code)
+        self.pesel = pesel_processing(pesel)
+        self.balance = initial_balance(self.pesel, promo_code)
         self.express_transfer_commission = 1
 
-    @property
-    def pesel(self):
-        return self._pesel
-
-    @pesel.setter
-    def pesel(self, pesel):
-        self._pesel = pesel_processing(pesel)
-
-    @property
-    def balance(self):
-        return self._balance
-
-    @balance.setter
-    def balance(self, args):
-        pesel, promo_code = args
-        self._balance = initial_balance(pesel, promo_code)
-
     def incoming_transfer(self, amount):
-        self._balance += amount
+        self.balance += amount
 
     def outgoing_transfer(self, amount):
         if self.balance > amount:
-            self._balance -= amount
+            self.balance -= amount
 
     def express_transfer(self, amount):
         if amount <= self.balance:
-            self._balance = self._balance - amount - self.express_transfer_commission
+            self.balance = self.balance - amount - self.express_transfer_commission
