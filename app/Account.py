@@ -54,3 +54,6 @@ class Account:
     def express_transfer(self, amount):
         if amount <= self.balance:
             self.balance = self.balance - amount - self.express_transfer_commission
+
+    def dummy():
+        pass
