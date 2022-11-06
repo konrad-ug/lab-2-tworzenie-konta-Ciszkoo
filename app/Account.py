@@ -9,7 +9,7 @@ def pesel_processing(pesel):
 
 
 def is_promo_code_wrong(promo_code):
-    if promo_code == None or re.fullmatch("^PROM-.{3}$", promo_code) == None:
+    if promo_code is None or re.fullmatch("^PROM-.{3}$", promo_code) is None:
         return True
     else:
         return False
