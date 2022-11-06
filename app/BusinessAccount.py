@@ -9,8 +9,10 @@ def nip_processing(nip):
 
 
 class BusinessAccount(Account):
+    express_transfer_commission = 5
+
     def __init__(self, company_name, nip):
         self.company_name = company_name
         self.nip = nip_processing(nip)
         self.balance = 0
-        self.express_transfer_commission = 5
+        self.transfer_history = []
