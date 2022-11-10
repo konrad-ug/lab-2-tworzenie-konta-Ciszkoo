@@ -35,6 +35,12 @@ def initial_balance(pesel, promo_code):
     else:
         return 50
 
+def transform_negative_val_to_zero(num: int):
+    if num > 0:
+        return num
+    else:
+        return 0
+
 
 class Account:
     express_transfer_commission = 1
@@ -59,3 +65,22 @@ class Account:
         if amount <= self.balance:
             self.balance = self.balance - amount - self.express_transfer_commission
             self.transfer_history.extend([-amount, -self.express_transfer_commission])
+
+    def take_loan(self, amount):
+        if len(self.transfer_history) < 3:
+            return False
+        if len(self.transfer_history) >= 5:
+            last_five_transfers = []
+            last_five_transfers.extend(self.transfer_history[-5:])
+            history_sum = sum(last_five_transfers)
+            if history_sum > amount:
+                self.balance += amount
+                return True
+        if len(self.transfer_history) >= 3:
+            last_three_transfers = []
+            last_three_transfers.extend(self.transfer_history[-3:])
+            history_mod = list(map(transform_negative_val_to_zero, last_three_transfers))
+            if all(history_mod):
+                self.balance += amount
+                return True
+        return False
