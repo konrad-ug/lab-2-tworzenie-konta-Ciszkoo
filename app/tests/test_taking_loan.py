@@ -1,4 +1,5 @@
 import unittest
+from parameterized import parameterized
 
 from ..Account import Account
 
@@ -8,58 +9,23 @@ class TestTakingLoan(unittest.TestCase):
     surname = "Januszewski"
     pesel = "12325678912"
 
-    def test_three_history_records_income(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [-100, 100, 100, 100]
-        is_granted = account.take_loan(700)
+    def setUp(self):
+        self.account = Account(self.name, self.surname, self.pesel)
 
-        self.assertTrue(is_granted)
-        self.assertEqual(account.balance, 700)
+    @parameterized.expand(
+        [
+            ([-100, 100, 100, 100], 700, True, 700),
+            ([-100, 100, -100, 100], 700, False, 0),
+            ([100, 100], 700, False, 0),
+            ([-100, -100, 400, -100, 100, -100], 199, True, 199),
+            ([-100, -100, 400, -100, 100, -100], 200, False, 0),
+            ([400, -100, 100, -100], 200, False, 0),
+            ([], 200, False, 0),
+        ]
+    )
+    def test_taking_loan(self, history, amount, expected, balance):
+        self.account.transfer_history = history
+        is_granted = self.account.take_loan(amount)
 
-    def test_three_history_records_not_income(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [-100, 100, -100, 100]
-        is_granted = account.take_loan(700)
-
-        self.assertFalse(is_granted)
-        self.assertEqual(account.balance, 0)
-
-    def test_two_history_records_income(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [100, 100]
-        is_granted = account.take_loan(700)
-
-        self.assertFalse(is_granted)
-        self.assertEqual(account.balance, 0)
-
-    def test_five_history_records_more_than_loan(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [-100, -100, 400, -100, 100, -100]
-        is_granted = account.take_loan(199)
-
-        self.assertTrue(is_granted)
-        self.assertEqual(account.balance, 199)
-
-    def test_five_history_records_less_equal_than_loan(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [-100, -100, 400, -100, 100, -100]
-        is_granted = account.take_loan(200)
-
-        self.assertFalse(is_granted)
-        self.assertEqual(account.balance, 0)
-
-    def test_four_history_records_more_than_loan(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = [400, -100, 100, -100]
-        is_granted = account.take_loan(200)
-
-        self.assertFalse(is_granted)
-        self.assertEqual(account.balance, 0)
-
-    def test_zero_history_records(self):
-        account = Account(self.name, self.surname, self.pesel)
-        account.transfer_history = []
-        is_granted = account.take_loan(200)
-
-        self.assertFalse(is_granted)
-        self.assertEqual(account.balance, 0)
+        self.assertEqual(is_granted, expected)
+        self.assertEqual(self.account.balance, balance)
