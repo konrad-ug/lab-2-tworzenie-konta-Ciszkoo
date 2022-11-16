@@ -35,37 +35,12 @@ def initial_balance(pesel, promo_code):
     else:
         return 50
 
-
-def transform_negative_val_to_zero(num: int):
-    if num > 0:
-        return num
-    else:
-        return 0
-
-
-# def loan_qualification_three(history: list[int], amount: int):
-#     if len(history) < 3:
-#         return False
-#     if len(history) >= 3:
-#         last_three_transfers = []
-#         last_three_transfers.extend(history[-3:])
-#         history_mod = list(
-#             map(transform_negative_val_to_zero, last_three_transfers)
-#         )
-#         if all(history_mod):
-#             return True
-#     return False
-
-# def loan_qualification_five(history: list[int], amount: int):
-#     if len(history) < 5:
-#         return False
-#     if len(history) >= 5:
-#         last_five_transfers = []
-#         last_five_transfers.extend(history[-5:])
-#         history_sum = sum(last_five_transfers)
-#         if history_sum > amount:
-#             return True
-#     return False
+def isLoanAvailable(history, amount):
+    if len(history) >= 5 and sum(history[-5:]) > amount:
+        return True
+    if len(history) >= 3 and len(list(filter(lambda x: x > 0, history[-3:]))) == 3:
+        return True
+    return False
 
 
 class Account:
@@ -95,20 +70,7 @@ class Account:
     def take_loan(self, amount):
         if len(self.transfer_history) < 3:
             return False
-        if len(self.transfer_history) >= 5:
-            last_five_transfers = []
-            last_five_transfers.extend(self.transfer_history[-5:])
-            history_sum = sum(last_five_transfers)
-            if history_sum > amount:
-                self.balance += amount
-                return True
-        if len(self.transfer_history) >= 3:
-            last_three_transfers = []
-            last_three_transfers.extend(self.transfer_history[-3:])
-            history_mod = list(
-                map(transform_negative_val_to_zero, last_three_transfers)
-            )
-            if all(history_mod):
-                self.balance += amount
-                return True
+        if isLoanAvailable(self.transfer_history, amount):
+            self.balance += amount
+            return True
         return False
