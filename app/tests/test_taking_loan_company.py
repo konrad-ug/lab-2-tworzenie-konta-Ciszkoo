@@ -14,6 +14,7 @@ class TestTakingLoanCompany(unittest.TestCase):
     @parameterized.expand(
         [
             ([100, -100, -1775, 100], 1000, 500, True, 1500),
+            ([-1775], 10000, 500, True, 10500),
             ([100, -100, -1775, 100], 1000, 501, False, 1000),
             ([100, -100, 100], 1000, 500, False, 1000),
             ([100, -100, 100], 1000, 501, False, 1000),
