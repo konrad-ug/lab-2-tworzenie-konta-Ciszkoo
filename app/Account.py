@@ -35,6 +35,7 @@ def initial_balance(pesel, promo_code):
     else:
         return 50
 
+
 def isLoanAvailable(history, amount):
     if len(history) >= 5 and sum(history[-5:]) > amount:
         return True
