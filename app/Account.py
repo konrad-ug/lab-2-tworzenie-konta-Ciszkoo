@@ -36,6 +36,14 @@ def initial_balance(pesel, promo_code):
         return 50
 
 
+def isLoanAvailable(history, amount):
+    if len(history) >= 5 and sum(history[-5:]) > amount:
+        return True
+    if len(history) >= 3 and len(list(filter(lambda x: x > 0, history[-3:]))) == 3:
+        return True
+    return False
+
+
 class Account:
     express_transfer_commission = 1
 
@@ -59,3 +67,11 @@ class Account:
         if amount <= self.balance:
             self.balance = self.balance - amount - self.express_transfer_commission
             self.transfer_history.extend([-amount, -self.express_transfer_commission])
+
+    def take_loan(self, amount):
+        if len(self.transfer_history) < 3:
+            return False
+        if isLoanAvailable(self.transfer_history, amount):
+            self.balance += amount
+            return True
+        return False
