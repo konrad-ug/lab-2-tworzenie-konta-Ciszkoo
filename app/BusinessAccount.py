@@ -18,7 +18,10 @@ class BusinessAccount(Account):
         self.transfer_history = []
 
     def take_loan(self, amount):
-        if self.balance >= amount * 2 and len(list(filter(lambda x: x == -1775, self.transfer_history))) > 0:
+        if (
+            self.balance >= amount * 2
+            and len(list(filter(lambda x: x == -1775, self.transfer_history))) > 0
+        ):
             self.balance += amount
             return True
         return False

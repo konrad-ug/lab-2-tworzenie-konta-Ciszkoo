@@ -11,15 +11,14 @@ class TestTakingLoanCompany(unittest.TestCase):
     def setUp(self) -> None:
         self.account = BusinessAccount(self.company_name, self.nip)
 
-
     @parameterized.expand(
-      [
-        ([100, -100, -1775, 100], 1000, 500, True, 1500),
-        ([100, -100, -1775, 100], 1000, 501, False, 1000),
-        ([100, -100, 100], 1000, 500, False, 1000),
-        ([100, -100, 100], 1000, 501, False, 1000),
-        ([], 1000, 500, False, 1000)
-      ]
+        [
+            ([100, -100, -1775, 100], 1000, 500, True, 1500),
+            ([100, -100, -1775, 100], 1000, 501, False, 1000),
+            ([100, -100, 100], 1000, 500, False, 1000),
+            ([100, -100, 100], 1000, 501, False, 1000),
+            ([], 1000, 500, False, 1000),
+        ]
     )
     def test_taking_loan_company(
         self, history, balance, amount, expected_outcome, expected_balance
