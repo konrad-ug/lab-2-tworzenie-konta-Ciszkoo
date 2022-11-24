@@ -3,6 +3,7 @@ import unittest
 from ..Account import Account
 from ..AccountsRegister import AccountsRegister
 
+
 class TestAccountsRegister(unittest.TestCase):
     name = "Dariusz"
     surname = "Januszewski"
