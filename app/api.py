@@ -8,6 +8,9 @@ app = Flask(__name__)
 @app.route("/account/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
+    isUsed = AccountsRegister.find_account(data["pesel"])
+    if isUsed is not None:
+        return jsonify("Account with provided pesel already exists!"), 400
     print(f"Received data - creating account: {data}")
     account = Account(data["name"], data["surname"], data["pesel"])
     AccountsRegister.add_account(account)
