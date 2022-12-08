@@ -6,7 +6,7 @@ from ..BusinessAccount import BusinessAccount
 
 class TestTakingLoanCompany(unittest.TestCase):
     company_name = "Januszex sp. z o.o."
-    nip = "1234567890"
+    nip = "8461627563"
 
     def setUp(self) -> None:
         self.account = BusinessAccount(self.company_name, self.nip)

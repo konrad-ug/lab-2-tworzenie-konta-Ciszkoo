@@ -9,7 +9,7 @@ class TestTransferHistory(unittest.TestCase):
     surname = "Krasinski"
     pesel = "01212567891"
     company_name = "Januszex sp. z o.o."
-    nip = "1234567890"
+    nip = "8461627563"
 
     def test_history_new_normal_account(self):
         account = Account(self.name, self.surname, self.pesel)

@@ -5,7 +5,7 @@ from ..BusinessAccount import BusinessAccount
 
 class TestCreateBusinessAccount(unittest.TestCase):
     company_name = "Januszex sp. z o.o."
-    correct_nip = "1357924681"
+    correct_nip = "8461627563"
     wrong_nip_info = "Niepoprawny NIP!"
 
     def test_create_business_account(self):
