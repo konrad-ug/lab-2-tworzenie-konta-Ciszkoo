@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch, Mock
 
 from ..BusinessAccount import BusinessAccount
 from ..Account import Account
@@ -10,6 +11,9 @@ class TestTransferHistory(unittest.TestCase):
     pesel = "01212567891"
     company_name = "Januszex sp. z o.o."
     nip = "8461627563"
+
+    def _mock_response(self, status):
+        return Mock(status_code=status)
 
     def test_history_new_normal_account(self):
         account = Account(self.name, self.surname, self.pesel)
@@ -61,15 +65,20 @@ class TestTransferHistory(unittest.TestCase):
 
     # Business account
 
-    def test_history_new_business_account(self):
+    @patch('requests.get')
+    def test_history_new_business_account(self, mock_get):
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         account = BusinessAccount(self.company_name, self.nip)
         self.assertListEqual(
             account.transfer_history,
             [],
             "Historia transakcji dla nowego konta biznesowego nie jest pusta!",
         )
-
-    def test_history_incoming_transfer_business_account(self):
+    @patch('requests.get')
+    def test_history_incoming_transfer_business_account(self, mock_get):
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         account = BusinessAccount(self.company_name, self.nip)
         account.incoming_transfer(100)
         self.assertListEqual(
@@ -77,8 +86,10 @@ class TestTransferHistory(unittest.TestCase):
             [100],
             "Przelew przychodzacy nie zostal wpisany do historii!",
         )
-
-    def test_history_outgoing_transfer_business_account(self):
+    @patch('requests.get')
+    def test_history_outgoing_transfer_business_account(self, mock_get):
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         account = BusinessAccount(self.company_name, self.nip)
         account.balance = 100
         account.outgoing_transfer(50)
@@ -88,7 +99,10 @@ class TestTransferHistory(unittest.TestCase):
             "Przelew wychodzacy nie zostal wpisany do historii!",
         )
 
-    def test_history_express_transfer_business_account(self):
+    @patch('requests.get')
+    def test_history_express_transfer_business_account(self, mock_get):
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         account = BusinessAccount(self.company_name, self.nip)
         account.balance = 100
         account.express_transfer(50)
@@ -98,7 +112,10 @@ class TestTransferHistory(unittest.TestCase):
             "Przelew ekspresowy nie zostal wpisany do historii!",
         )
 
-    def test_history_multiple_transfers_business_account(self):
+    @patch('requests.get')
+    def test_history_multiple_transfers_business_account(self, mock_get):
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         account = BusinessAccount(self.company_name, self.nip)
         account.incoming_transfer(1000)
         account.express_transfer(200)
