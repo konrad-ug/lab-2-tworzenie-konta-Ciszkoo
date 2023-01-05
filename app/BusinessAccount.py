@@ -16,6 +16,7 @@ def nip_processing(nip: str) -> str:
 
 class BusinessAccount(Account):
     express_transfer_commission = 5
+    history_mail_content = "Historia konta Twojej firmy to: "
 
     def __init__(self, company_name: str, nip: str):
         self.company_name = company_name

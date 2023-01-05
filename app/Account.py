@@ -1,4 +1,7 @@
+from datetime import date
 import re
+
+from app.SMTPConnection import SMTPConnection
 
 
 def pesel_processing(pesel):
@@ -46,6 +49,7 @@ def isLoanAvailable(history, amount):
 
 class Account:
     express_transfer_commission = 1
+    history_mail_content = "Twoja historia konta to: "
 
     def __init__(self, name, surname, pesel, promo_code=None):
         self.name = name
@@ -66,12 +70,21 @@ class Account:
     def express_transfer(self, amount):
         if amount <= self.balance:
             self.balance = self.balance - amount - self.express_transfer_commission
-            self.transfer_history.extend([-amount, -self.express_transfer_commission])
+            self.transfer_history.extend(
+                [-amount, -self.express_transfer_commission])
 
     def take_loan(self, amount):
         if len(self.transfer_history) < 3:
             return False
         if isLoanAvailable(self.transfer_history, amount):
             self.balance += amount
+            return True
+        return False
+
+    def send_mail_history(self, mail: str, connector: SMTPConnection) -> bool:
+        today = date.today()
+        title = f"Wyciąg z dnia {today}"
+        content = self.history_mail_content + str(self.transfer_history)
+        if connector.send_mail(title, content, mail):
             return True
         return False
