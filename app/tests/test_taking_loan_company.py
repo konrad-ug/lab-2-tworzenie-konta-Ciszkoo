@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch, Mock
 from parameterized import parameterized
 
 from ..BusinessAccount import BusinessAccount
@@ -6,9 +7,15 @@ from ..BusinessAccount import BusinessAccount
 
 class TestTakingLoanCompany(unittest.TestCase):
     company_name = "Januszex sp. z o.o."
-    nip = "1234567890"
+    nip = "8461627563"
 
-    def setUp(self) -> None:
+    def _mock_response(self, status):
+        return Mock(status_code=status)
+
+    @patch('requests.get')
+    def setUp(self, mock_get) -> None:
+        mock_response = self._mock_response(200)
+        mock_get.return_value = mock_response
         self.account = BusinessAccount(self.company_name, self.nip)
 
     @parameterized.expand(
